@@ -1,0 +1,988 @@
+Got it. I have processed the request and will now provide the updated HTML code based on all the changes you've specified, including parsing the provided document for the admissions criteria.
+
+Here's the amended code for your dashboard:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-secondary education pathways for students graduating in 2025 and 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New Color Scheme: Blue, Black, Gray */
+        :root {
+            --primary-blue: #3B82F6; /* Tailwind blue-500 */
+            --secondary-blue: #2563EB; /* Tailwind blue-600 */
+            --dark-background: #1A1A1A; /* Near black */
+            --mid-gray: #333333; /* Darker gray for elements */
+            --light-gray: #CCCCCC; /* Light gray for text/borders */
+            --text-color: #F0F0F0; /* Off-white for general text */
+            --border-color: #555555; /* Slightly lighter gray for borders */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-background);
+            color: var(--text-color);
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--mid-gray);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-blue);
+        }
+
+        .icon-sm { width: 18px; height: 18px; display: inline-block; vertical-align: middle; }
+        .icon-md { width: 20px; height: 20px; display: inline-block; vertical-align: middle; }
+
+        /* Custom styles for tables and inputs */
+        .table-auto {
+            width: 100%;
+        }
+
+        .table-auto th, .table-auto td {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-auto th {
+            background-color: var(--mid-gray);
+            color: var(--text-color);
+        }
+
+        .input, .select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--mid-gray);
+            color: var(--text-color);
+        }
+        .input:focus, .select:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            background-color: var(--primary-blue);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        .btn-outline:hover {
+            background-color: rgba(59, 130, 246, 0.1); /* blue-500 with opacity */
+        }
+
+        /* Card styles */
+        .card {
+            background-color: var(--mid-gray);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Specific styles for eligibility results */
+        .eligible {
+            color: limegreen;
+            font-weight: bold;
+        }
+        .not-eligible {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* List styling for requirements */
+        .list-disc {
+            list-style-type: disc;
+        }
+        .list-circle {
+            list-style-type: circle;
+        }
+        .list-inside {
+            list-style-position: inside;
+        }
+        .ml-4 { margin-left: 1rem; }
+        .ml-8 { margin-left: 2rem; }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-7xl mx-auto bg-dark-background p-8 rounded-lg shadow-xl border border-border-color">
+        <h1 class="text-3xl font-bold text-center mb-6 text-primary-blue">Post-secondary education pathways for students graduating in 2025 and 2026</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="card md:col-span-1">
+                <h2 class="text-xl font-semibold mb-4">Student Information</h2>
+                <div class="mb-4">
+                    <label for="schoolSelect" class="block text-sm font-medium mb-1">Select School:</label>
+                    <select id="schoolSelect" class="select w-full">
+                        <option value="secondary">Secondary School</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="currentYear" class="block text-sm font-medium mb-1">Graduation Year:</label>
+                    <span id="currentYear" class="input w-full block bg-mid-gray text-text-color cursor-not-allowed"></span>
+                </div>
+                <div class="mb-4">
+                    <label for="bonusInput" class="block text-sm font-medium mb-1">Bonus Points (0-2):</label>
+                    <input type="number" id="bonusInput" class="input w-full" value="0" min="0" max="2">
+                    <p class="text-sm text-light-gray mt-1">Enter bonus points (e.g., from CCA).</p>
+                </div>
+            </div>
+
+            <div class="card md:col-span-2">
+                <h2 class="text-xl font-semibold mb-4">Subject Management</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label for="subjectSelect" class="block text-sm font-medium mb-1">Subject:</label>
+                        <select id="subjectSelect" class="select w-full"></select>
+                    </div>
+                    <div>
+                        <label for="levelSelect" class="block text-sm font-medium mb-1">Level:</label>
+                        <select id="levelSelect" class="select w-full"></select>
+                    </div>
+                    <div>
+                        <label for="gradeSelect" class="block text-sm font-medium mb-1">Grade:</label>
+                        <select id="gradeSelect" class="select w-full"></select>
+                    </div>
+                </div>
+                <button id="addUpdateSubjectBtn" class="btn w-full mb-4">Add/Update Subject</button>
+                <div class="overflow-x-auto">
+                    <table id="studentSubjectsTable" class="table-auto text-sm w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Subject</th>
+                                <th class="text-left">Level</th>
+                                <th class="text-left">Grade</th>
+                                <th class="text-left">Points</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-8">
+            <h2 class="text-xl font-semibold mb-4">Eligibility Summary for <span id="currentYearSpan"></span> Cohort</h2>
+            <div id="eligibilityResults" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </div>
+
+        <div class="card">
+            <h2 class="text-xl font-semibold mb-4">Improvement Suggestions</h2>
+            <div id="improvementSuggestions" class="text-light-gray">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const schoolSelect = document.getElementById('schoolSelect');
+            const currentYearSpan = document.getElementById('currentYear');
+            const subjectSelect = document.getElementById('subjectSelect');
+            const levelSelect = document.getElementById('levelSelect');
+            const gradeSelect = document.getElementById('gradeSelect');
+            const addUpdateSubjectBtn = document.getElementById('addUpdateSubjectBtn');
+            const studentSubjectsTableBody = document.querySelector('#studentSubjectsTable tbody');
+            const bonusInput = document.getElementById('bonusInput');
+            const eligibilityResultsDiv = document.getElementById('eligibilityResults');
+            const improvementSuggestionsDiv = document.getElementById('improvementSuggestions');
+
+            let selectedSchool = '';
+            let studentSubjects = [];
+
+            // Updated subject and grade definitions, including 'B-syllabus' for Mother Tongue
+            const subjects = {
+                'secondary': {
+                    'English Language': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Mother Tongue': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U'],
+                        'B-syllabus': ['Merit', 'Pass', 'Ungraded'] // Added B-syllabus
+                    },
+                    'Higher Mother Tongue': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9']
+                    },
+                    'Mathematics': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Additional Mathematics': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9']
+                    },
+                    'Science (Physics/Chemistry/Biology)': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Combined Science': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9']
+                    },
+                    'Humanities (History/Geography/Lit)': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Combined Humanities': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9']
+                    },
+                    'Art': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Music': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Design & Technology': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Food & Nutrition': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Principles of Accounts': {
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'POA': { // Adding POA as a separate entry for clarity
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    },
+                    'Others': { // For subjects not explicitly listed, but still contribute to aggregate
+                        'O-level': ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7', 'E8', 'F9'],
+                        'NA-level': ['1', '2', '3', '4', 'U'],
+                        'NT-level': ['A', 'B', 'C', 'D', 'F', 'U']
+                    }
+                }
+            };
+
+            // Point mapping for different levels
+            // O-level grades to points (L1R5/ELR2B2)
+            const oLevelPoints = {
+                'A1': 1, 'A2': 2, 'B3': 3, 'B4': 4, 'C5': 5, 'C6': 6, 'D7': 7, 'E8': 8, 'F9': 9
+            };
+            // NA-level grades to points (PFP/DPP)
+            const naLevelPoints = {
+                '1': 1, '2': 2, '3': 3, '4': 4, 'U': 5 // Assuming U for ungraded/fail gives maximum points
+            };
+            // NT-level grades to points (ITE)
+            const ntLevelPoints = {
+                'A': 1, 'B': 2, 'C': 3, 'D': 4, 'F': 5, 'U': 6 // Assuming U for ungraded/fail gives maximum points
+            };
+
+            // New: Mother Tongue B-syllabus grades (do not contribute to aggregate points)
+            const mtBSyllabusPoints = {
+                'Merit': 0, 'Pass': 0, 'Ungraded': 0 // These grades don't contribute to aggregate scores.
+            };
+
+            function getSubjectPoints(level, grade) {
+                if (level === 'O-level') {
+                    return oLevelPoints[grade];
+                } else if (level === 'NA-level') {
+                    return naLevelPoints[grade];
+                } else if (level === 'NT-level') {
+                    return ntLevelPoints[grade];
+                } else if (level === 'B-syllabus') {
+                    return mtBSyllabusPoints[grade]; // B-syllabus grades do not contribute to aggregate
+                }
+                return null;
+            }
+
+            function populateSubjectDropdown() {
+                const currentSubjects = subjects[selectedSchool];
+                subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                for (const subjectName in currentSubjects) {
+                    const option = document.createElement('option');
+                    option.value = subjectName;
+                    option.textContent = subjectName;
+                    subjectSelect.appendChild(option);
+                }
+                levelSelect.innerHTML = '<option value="">Select Level</option>';
+                gradeSelect.innerHTML = '<option value="">Select Grade</option>';
+            }
+
+            function populateLevelDropdown(selectedLevel = '', selectedSubject = subjectSelect.value) {
+                levelSelect.innerHTML = '<option value="">Select Level</option>';
+                if (selectedSubject && subjects[selectedSchool][selectedSubject]) {
+                    const levels = subjects[selectedSchool][selectedSubject];
+                    for (const levelName in levels) {
+                        const option = document.createElement('option');
+                        option.value = levelName;
+                        option.textContent = levelName;
+                        levelSelect.appendChild(option);
+                    }
+                }
+                if (selectedLevel) {
+                    levelSelect.value = selectedLevel;
+                }
+                populateGradeDropdown(levelSelect.value); // Populate grades immediately after levels
+            }
+
+            function populateGradeDropdown(selectedLevel = levelSelect.value, selectedGrade = '') {
+                gradeSelect.innerHTML = '<option value="">Select Grade</option>';
+                const selectedSubject = subjectSelect.value;
+                if (selectedSubject && selectedLevel && subjects[selectedSchool][selectedSubject] && subjects[selectedSchool][selectedSubject][selectedLevel]) {
+                    const grades = subjects[selectedSchool][selectedSubject][selectedLevel];
+                    grades.forEach(grade => {
+                        const option = document.createElement('option');
+                        option.value = grade;
+                        option.textContent = grade;
+                        gradeSelect.appendChild(option);
+                    });
+                }
+                if (selectedGrade) {
+                    gradeSelect.value = selectedGrade;
+                }
+            }
+
+            function handleAddOrUpdateSubject() {
+                const subject = subjectSelect.value;
+                const level = levelSelect.value;
+                const grade = gradeSelect.value;
+
+                if (!subject || !level || !grade) {
+                    alert('Please select a subject, level, and grade.');
+                    return;
+                }
+
+                // Mother Tongue B-syllabus grades don't have points for aggregate calculation
+                const points = (level === 'B-syllabus' && ['Merit', 'Pass', 'Ungraded'].includes(grade)) ? 0 : getSubjectPoints(level, grade);
+
+                const existingIndex = studentSubjects.findIndex(
+                    s => s.subject === subject && s.level === level
+                );
+
+                if (existingIndex > -1) {
+                    studentSubjects[existingIndex] = { subject, level, grade, points };
+                } else {
+                    studentSubjects.push({ subject, level, grade, points });
+                }
+                updateAllCalculationsAndRender();
+            }
+
+            function removeSubject(index) {
+                studentSubjects.splice(index, 1);
+                updateAllCalculationsAndRender();
+            }
+
+            function renderStudentSubjectsTable() {
+                studentSubjectsTableBody.innerHTML = '';
+                studentSubjects.forEach((sub, index) => {
+                    const row = studentSubjectsTableBody.insertRow();
+                    row.className = 'hover:bg-mid-gray';
+
+                    const subjectCell = row.insertCell();
+                    subjectCell.textContent = sub.subject;
+
+                    const levelCell = row.insertCell();
+                    levelCell.textContent = sub.level;
+
+                    const gradeCell = row.insertCell();
+                    gradeCell.textContent = sub.grade;
+
+                    const pointsCell = row.insertCell();
+                    // Display points only if they contribute to aggregate
+                    pointsCell.textContent = sub.level === 'B-syllabus' ? '-' : sub.points;
+
+                    const actionCell = row.insertCell();
+                    actionCell.className = 'text-center';
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.className = 'btn btn-outline text-xs px-2 py-1';
+                    removeBtn.onclick = () => removeSubject(index);
+                    actionCell.appendChild(removeBtn);
+                });
+            }
+
+            // Function to get the grade for a specific subject and level, if it exists
+            function getGrade(subjectName, level) {
+                const subject = studentSubjects.find(s => s.subject === subjectName && s.level === level);
+                return subject ? subject.grade : null;
+            }
+
+            // Function to get points for a specific subject and level, if it exists
+            function getPoints(subjectName, level) {
+                const subject = studentSubjects.find(s => s.subject === subjectName && s.level === level);
+                // Ensure B-syllabus points are not used for aggregate calculation
+                return (subject && subject.level !== 'B-syllabus') ? subject.points : null;
+            }
+
+            // Helper to check if a subject exists at a certain level
+            function hasSubject(subjectName, level) {
+                return studentSubjects.some(s => s.subject === subjectName && s.level === level);
+            }
+
+            // Helper to check if any of a list of subjects exists at a certain level
+            function hasAnySubject(subjectNames, level) {
+                return subjectNames.some(name => hasSubject(name, level));
+            }
+
+            // Helper to get subjects by level, excluding B-syllabus and null points
+            function getSubjectsByLevel(level) {
+                return studentSubjects.filter(s => s.level === level && s.level !== 'B-syllabus' && s.points !== null);
+            }
+
+            // Main Eligibility Check Function
+            function checkEligibility() {
+                const results = [];
+                const bonusPoints = parseInt(bonusInput.value) || 0;
+
+                // Aggregate calculations
+                const oLevelSubjects = getSubjectsByLevel('O-level');
+                const naLevelSubjects = getSubjectsByLevel('NA-level');
+                const ntLevelSubjects = getSubjectsByLevel('NT-level');
+
+                // L1R5 for JC/MI (O-level)
+                let l1r5Gross = Infinity;
+                let l1r5Net = Infinity;
+                let eligibleForJC = false;
+
+                const englishO = oLevelSubjects.find(s => s.subject === 'English Language');
+                const higherMTLO = oLevelSubjects.find(s => s.subject === 'Higher Mother Tongue');
+                const motherTongueO = oLevelSubjects.find(s => s.subject === 'Mother Tongue');
+
+                let L1_JC = null;
+                // Prioritize Higher Mother Tongue for L1 if available and A1-C6
+                if (higherMTLO && ['A1', 'A2', 'B3', 'B4', 'C5', 'C6'].includes(higherMTLO.grade)) {
+                    L1_JC = higherMTLO;
+                } else if (englishO && ['A1', 'A2', 'B3', 'B4', 'C5', 'C6'].includes(englishO.grade)) {
+                    L1_JC = englishO;
+                }
+
+                if (L1_JC) {
+                    const availableRSubjects = oLevelSubjects.filter(s =>
+                        s !== L1_JC && // Exclude L1 subject
+                        !(L1_JC.subject === 'Higher Mother Tongue' && s.subject === 'Mother Tongue') && // Exclude Mother Tongue if Higher MT is L1
+                        !(L1_JC.subject === 'Mother Tongue' && s.subject === 'Higher Mother Tongue') // Exclude Higher MT if Mother Tongue is L1
+                    );
+
+                    // JC L1R5: L1 + R1 (Humanities) + R2 (Math/Science) + R3 (Humanities/Math/Science) + R4 + R5 (Any 2 best)
+                    // The document specifies exact categories for R1, R2, R3.
+                    // Let's get subjects by category for the R-components.
+                    const humanitiesO = availableRSubjects.filter(s => ['Humanities (History/Geography/Lit)', 'Combined Humanities', 'Art', 'Music'].includes(s.subject));
+                    const mathScienceO = availableRSubjects.filter(s => ['Mathematics', 'Additional Mathematics', 'Science (Physics/Chemistry/Biology)', 'Combined Science'].includes(s.subject));
+                    const otherO = availableRSubjects.filter(s =>
+                        !['English Language', 'Mother Tongue', 'Higher Mother Tongue', 'Humanities (History/Geography/Lit)', 'Combined Humanities', 'Art', 'Music', 'Mathematics', 'Additional Mathematics', 'Science (Physics/Chemistry/Biology)', 'Combined Science'].includes(s.subject)
+                    );
+
+                    const allRSubjects = [...humanitiesO, ...mathScienceO, ...otherO].sort((a, b) => a.points - b.points);
+
+                    if (allRSubjects.length >= 5) {
+                        // Attempt to pick R1, R2, R3 based on categories as best possible
+                        // R1: Best from Humanities
+                        const r1Sub = humanitiesO.length > 0 ? humanitiesO.sort((a, b) => a.points - b.points)[0] : null;
+
+                        // R2: Best from Math/Science
+                        const r2Sub = mathScienceO.length > 0 ? mathScienceO.sort((a, b) => a.points - b.points)[0] : null;
+
+                        // R3: Best from Humanities/Math/Science (excluding R1, R2 if they exist)
+                        let r3CandidateSubjects = [...humanitiesO, ...mathScienceO].filter(s => s !== r1Sub && s !== r2Sub);
+                        const r3Sub = r3CandidateSubjects.length > 0 ? r3CandidateSubjects.sort((a, b) => a.points - b.points)[0] : null;
+
+                        // R4, R5: Any 2 best-scoring subjects from remaining
+                        let usedSubjectsForR1R2R3 = [r1Sub, r2Sub, r3Sub].filter(s => s !== null);
+                        const remainingForR4R5 = allRSubjects.filter(s => !usedSubjectsForR1R2R3.includes(s));
+                        const r4Sub = remainingForR4R5.length > 0 ? remainingForR4R5.sort((a, b) => a.points - b.points)[0] : null;
+                        const r5Sub = remainingForR4R5.length > 1 ? remainingForR4R5.sort((a, b) => a.points - b.points)[1] : null;
+
+                        // Reconstruct the 5 R subjects for gross aggregate. Take the 5 best overall.
+                        // This interpretation is safer for aggregate calculation based on the typical L1R5 meaning
+                        // and how the document then states "Any 2 best-scoring subjects" for R4, R5.
+                        // We need 6 subjects in total (L1 + 5 R)
+                        const allSubjectsForL1R5 = oLevelSubjects.filter(s => s.level !== 'B-syllabus' && s.points !== null);
+
+                        if (allSubjectsForL1R5.length >= 6) {
+                            // Find the L1 subject first
+                            let L1_actual = null;
+                            const englishO_calc = allSubjectsForL1R5.find(s => s.subject === 'English Language');
+                            const hmtO_calc = allSubjectsForL1R5.find(s => s.subject === 'Higher Mother Tongue');
+
+                            if (hmtO_calc) {
+                                L1_actual = hmtO_calc;
+                            } else if (englishO_calc) {
+                                L1_actual = englishO_calc;
+                            }
+
+                            if (L1_actual) {
+                                let remainingSubjectsForR = allSubjectsForL1R5.filter(s => s !== L1_actual);
+                                // If L1 is HMT, cannot use Mother Tongue of the same language.
+                                if (L1_actual.subject === 'Higher Mother Tongue') {
+                                    remainingSubjectsForR = remainingSubjectsForR.filter(s => s.subject !== 'Mother Tongue');
+                                }
+                                // If L1 is EL, then HMT or MT can be used as R.
+
+                                if (remainingSubjectsForR.length >= 5) {
+                                    const sortedR = remainingSubjectsForR.sort((a, b) => a.points - b.points).slice(0, 5);
+                                    l1r5Gross = L1_actual.points + sortedR.reduce((sum, s) => sum + s.points, 0);
+                                    l1r5Net = l1r5Gross - bonusPoints;
+
+                                    // Check specific grade requirements for JC
+                                    const englishGradeJC = getGrade('English Language', 'O-level');
+                                    const mathGradeJC = getGrade('Mathematics', 'O-level') || getGrade('Additional Mathematics', 'O-level');
+                                    const oneMTLGradeJC = getGrade('Mother Tongue', 'O-level') || getGrade('Higher Mother Tongue', 'O-level');
+
+                                    const englishOK_JC = englishGradeJC && ['A1', 'A2', 'B3', 'B4', 'C5', 'C6'].includes(englishGradeJC);
+                                    const mathOK_JC = mathGradeJC && ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7'].includes(mathGradeJC);
+                                    const oneMTLOK_JC = oneMTLGradeJC && ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7'].includes(oneMTLGradeJC);
+
+                                    if (l1r5Gross <= 20 && englishOK_JC && mathOK_JC && oneMTLOK_JC) {
+                                        eligibleForJC = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                // ELR2B2 for Polytechnic Year 1 (O-level)
+                let elr2b2Gross = Infinity;
+                let elr2b2Net = Infinity;
+                let eligibleForPolyYear1 = false;
+                const englishPoly = oLevelSubjects.find(s => s.subject === 'English Language');
+
+                if (englishPoly && englishPoly.points <= 6) { // English A1-C6
+                    const availableSubjectsForELR2B2 = oLevelSubjects.filter(s =>
+                        s.subject !== 'English Language' &&
+                        s.level !== 'B-syllabus' // Ensure B-syllabus MT is not included
+                    );
+
+                    // R1 (1st Group of Relevant Subjects): Any 1 best-scoring relevant subject (Add Math, Math)
+                    const R1_Poly_Candidates = availableSubjectsForELR2B2.filter(s => ['Additional Mathematics', 'Mathematics'].includes(s.subject));
+                    const R1_Poly = R1_Poly_Candidates.length > 0 ? R1_Poly_Candidates.sort((a,b) => a.points - b.points)[0] : null;
+
+                    // R2 (2nd Group of Relevant Subjects): Any 1 best-scoring relevant subject (Art, Bio, Chem, Comp, D&T, D Studies, F&N, Elec, Higher Art, Physics, Combined Science)
+                    const R2_Poly_Candidates = availableSubjectsForELR2B2.filter(s =>
+                        ['Art', 'Biology', 'Chemistry', 'Computing/Computer Studies', 'Design & Technology', 'Design Studies', 'Food & Nutrition', 'Electronics/Fundamentals of Electronics', 'Higher Art', 'Physics', 'Combined Science'].includes(s.subject) &&
+                        s !== R1_Poly // Ensure R1 is not also R2
+                    );
+                    const R2_Poly = R2_Poly_Candidates.length > 0 ? R2_Poly_Candidates.sort((a,b) => a.points - b.points)[0] : null;
+
+                    let subjectsForB1B2 = availableSubjectsForELR2B2;
+                    if (R1_Poly) subjectsForB1B2 = subjectsForB1B2.filter(s => s !== R1_Poly);
+                    if (R2_Poly) subjectsForB1B2 = subjectsForB1B2.filter(s => s !== R2_Poly);
+
+                    const sortedB1B2 = subjectsForB1B2.sort((a, b) => a.points - b.points);
+
+                    if (R1_Poly && R2_Poly && sortedB1B2.length >= 2) {
+                        elr2b2Gross = englishPoly.points + R1_Poly.points + R2_Poly.points + sortedB1B2[0].points + sortedB1B2[1].points;
+                        elr2b2Net = elr2b2Gross - bonusPoints;
+
+                        // Polytechnic Year 1 Eligibility Criteria
+                        const mathPoly = getGrade('Mathematics', 'O-level') || getGrade('Additional Mathematics', 'O-level');
+
+                        const englishOK_Poly = englishPoly.points <= 6; // A1-C6
+                        const mathOK_Poly = mathPoly && ['A1', 'A2', 'B3', 'B4', 'C5', 'C6', 'D7'].includes(mathPoly); // A1-D7
+
+                        if (elr2b2Gross <= 26 && englishOK_Poly && mathOK_Poly) {
+                            eligibleForPolyYear1 = true;
+                        }
+                    }
+                }
+
+
+                // PFP (Polytechnic Foundation Programme) - NA-level
+                let pfpELMAB3Gross = Infinity;
+                let pfpELMAB3Net = Infinity;
+                let eligibleForPFP = false;
+                const englishNA = naLevelSubjects.find(s => s.subject === 'English Language');
+                const mathNA = naLevelSubjects.find(s => s.subject === 'Mathematics');
+
+                if (englishNA && mathNA) { // English and Math are mandatory
+                    // Exclude EL, MA, and Mother Tongue B-syllabus
+                    const remainingNASubjects = naLevelSubjects.filter(s =>
+                        s.subject !== 'English Language' &&
+                        s.subject !== 'Mathematics' &&
+                        s.level !== 'B-syllabus' &&
+                        s.points !== null
+                    ).sort((a, b) => a.points - b.points);
+
+                    if (remainingNASubjects.length >= 3) {
+                        pfpELMAB3Gross = englishNA.points + mathNA.points +
+                                        remainingNASubjects[0].points +
+                                        remainingNASubjects[1].points +
+                                        remainingNASubjects[2].points;
+                        pfpELMAB3Net = pfpELMAB3Gross - bonusPoints;
+
+                        // PFP Specific Requirements (EL <= 3, MA <= 3, Best 3 other subjects <= 3 each)
+                        const englishOK_PFP = englishNA.points <= 3; // Grade 1-3
+                        const mathOK_PFP = mathNA.points <= 3; // Grade 1-3
+
+                        // At least 2 NA-level subjects with grade 1-3 from the 3 best remaining subjects
+                        const countOfGoodOtherSubjects = remainingNASubjects.slice(0,3).filter(s => s.points <= 3).length;
+
+                        // The total ELMAB3 raw aggregate score should not exceed 12 points
+                        if (pfpELMAB3Gross <= 12 && englishOK_PFP && mathOK_PFP && countOfGoodOtherSubjects >= 2) {
+                            eligibleForPFP = true;
+                        }
+                    }
+                }
+
+                // DPP (Direct-entry-scheme to Polytechnic Programme) - NA-level
+                let dppELMAB3Gross = Infinity;
+                let dppELMAB3Net = Infinity;
+                let eligibleForDPP = false;
+
+                if (englishNA && mathNA) {
+                     const remainingNASubjects = naLevelSubjects.filter(s =>
+                        s.subject !== 'English Language' &&
+                        s.subject !== 'Mathematics' &&
+                        s.level !== 'B-syllabus' &&
+                        s.points !== null
+                    ).sort((a, b) => a.points - b.points);
+
+                    if (remainingNASubjects.length >= 3) {
+                        dppELMAB3Gross = englishNA.points + mathNA.points +
+                                         remainingNASubjects[0].points +
+                                         remainingNASubjects[1].points +
+                                         remainingNASubjects[2].points;
+                        dppELMAB3Net = dppELMAB3Gross - bonusPoints;
+
+                        // DPP Specific Requirements (EL <= 3, MA <= 3)
+                        const englishOK_DPP = englishNA.points <= 3;
+                        const mathOK_DPP = mathNA.points <= 3;
+
+                        // Total ELMAB3 raw aggregate score should not exceed 19 points
+                        if (dppELMAB3Gross <= 19 && englishOK_DPP && mathOK_DPP) {
+                            eligibleForDPP = true;
+                        }
+                    }
+                }
+
+                // ITE Year 1 Higher Nitec - NT-level (Nitec Foundation Programme)
+                let hnitecYear1Gross = Infinity;
+                let hnitecYear1Net = Infinity;
+                let eligibleForHnitecYear1 = false;
+                const englishNT = ntLevelSubjects.find(s => s.subject === 'English Language');
+                const mathNT = ntLevelSubjects.find(s => s.subject === 'Mathematics');
+
+                if (englishNT && mathNT) {
+                    const remainingNTSubjects = ntLevelSubjects.filter(s =>
+                        s.subject !== 'English Language' &&
+                        s.subject !== 'Mathematics' &&
+                        s.level !== 'B-syllabus' &&
+                        s.points !== null
+                    ).sort((a, b) => a.points - b.points);
+
+                    if (remainingNTSubjects.length >= 3) {
+                        hnitecYear1Gross = englishNT.points + mathNT.points +
+                                            remainingNTSubjects[0].points +
+                                            remainingNTSubjects[1].points +
+                                            remainingNTSubjects[2].points; // ELMAB3 for ITE
+                        hnitecYear1Net = hnitecYear1Gross - bonusPoints;
+
+                        // Higher Nitec Year 1 Eligibility Criteria
+                        const englishOK_HNitec1 = englishNT.points <= 4; // Grade A-D
+                        const mathOK_HNitec1 = mathNT.points <= 4; // Grade A-D
+
+                        if (hnitecYear1Gross <= 19 && englishOK_HNitec1 && mathOK_HNitec1) {
+                            eligibleForHnitecYear1 = true;
+                        }
+                    }
+                }
+
+                // MER (Pass 2 O-level subjects)
+                let merPass2OL_eligible = false;
+                const oLevelPasses = oLevelSubjects.filter(s => oLevelPoints[s.grade] <= 7).length; // A1-D7 are passes
+                if (oLevelPasses >= 2) {
+                    merPass2OL_eligible = true;
+                }
+
+                // Populate results
+                results.push({
+                    pathway: 'Junior College',
+                    aggregateType: 'L1R5',
+                    gross: l1r5Gross === Infinity ? 'N/A' : l1r5Gross,
+                    net: l1r5Net === Infinity ? 'N/A' : l1r5Net,
+                    eligible: eligibleForJC,
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria:</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Your L1R5 gross aggregate score must not exceed 20.</li>
+                                <li>Meet the grade requirements for specific subjects:</li>
+                                <ul class="list-circle list-inside ml-8">
+                                    <li>English Language: A1 to C6</li>
+                                    <li>Any 1 Mathematics (Mathematics/Additional Mathematics): A1 to D7</li>
+                                    <li>Any 1 Mother Tongue Language (MTL/Higher MTL): A1 to D7</li>
+                                </ul>
+                            </ul>
+                        </p>
+                        <p class="text-xs text-primary-blue mt-2">Please refer to website link <a href="https://www.moe.gov.sg/post-secondary/admissions/jae/junior-colleges-and-millennia-institute?pt=Millennia%20Institute%20(MI)" target="_blank" class="underline hover:text-secondary-blue">https://www.moe.gov.sg/post-secondary/admissions/jae/junior-colleges-and-millennia-institute?pt=Millennia%20Institute%20(MI)</a> for more details including bonus points and conditional admission.</p>
+                    `
+                });
+
+                results.push({
+                    pathway: 'Millennia Institute',
+                    aggregateType: 'L1R5',
+                    gross: l1r5Gross === Infinity ? 'N/A' : l1r5Gross,
+                    net: l1r5Net === Infinity ? 'N/A' : l1r5Net,
+                    eligible: eligibleForJC, // MI has same L1R5 <= 20 requirement and subject grades as JC from the document.
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria:</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Your L1R5 gross aggregate score must not exceed 20.</li>
+                                <li>Meet the grade requirements for specific subjects:</li>
+                                <ul class="list-circle list-inside ml-8">
+                                    <li>English Language: A1 to C6</li>
+                                    <li>Any 1 Mathematics (Mathematics/Additional Mathematics): A1 to D7</li>
+                                    <li>Any 1 Mother Tongue Language (MTL/Higher MTL): A1 to D7</li>
+                                </ul>
+                            </ul>
+                        </p>
+                        <p class="text-xs text-primary-blue mt-2">Please refer to website link <a href="https://www.moe.gov.sg/post-secondary/admissions/jae/junior-colleges-and-millennia-institute?pt=Millennia%20Institute%20(MI)" target="_blank" class="underline hover:text-secondary-blue">https://www.moe.gov.sg/post-secondary/admissions/jae/junior-colleges-and-millennia-institute?pt=Millennia%20Institute%20(MI)</a> for more details including bonus points and conditional admission.</p>
+                    `
+                });
+
+                results.push({
+                    pathway: 'Polytechnic Year 1',
+                    aggregateType: 'ELR2B2',
+                    gross: elr2b2Gross === Infinity ? 'N/A' : elr2b2Gross,
+                    net: elr2b2Net === Infinity ? 'N/A' : elr2b2Net,
+                    eligible: eligibleForPolyYear1,
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria (ELR2B2):</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>English Language (EL): A1 to C6</li>
+                                <li>R2 (2 relevant subjects):
+                                    <ul class="list-circle list-inside ml-8">
+                                        <li>R1: Any 1 best-scoring relevant subject from Additional Mathematics, Mathematics.</li>
+                                        <li>R2: Any 1 best-scoring relevant subject from Art, Biology, Chemistry, Computing/Computer Studies, Design & Technology, Design Studies, Food & Nutrition/Nutrition & Food Science, Electronics/Fundamentals of Electronics, Higher Art, Physics, Combined Science.</li>
+                                    </ul>
+                                </li>
+                                <li>B2 (2 best other subjects)</li>
+                                <li>ELR2B2 gross aggregate score must not exceed 26.</li>
+                                <li>Meet the grade requirements for specific subjects:</li>
+                                <ul class="list-circle list-inside ml-8">
+                                    <li>English Language: A1 to C6</li>
+                                    <li>Any 1 Mathematics (Mathematics/Additional Mathematics): A1 to D7</li>
+                                </ul>
+                            </ul>
+                        </p>
+                    `
+                });
+
+                results.push({
+                    pathway: 'Polytechnic Foundation Programme (PFP)',
+                    aggregateType: 'ELMAB3 (NA-level)',
+                    gross: pfpELMAB3Gross === Infinity ? 'N/A' : pfpELMAB3Gross,
+                    net: pfpELMAB3Net === Infinity ? 'N/A' : pfpELMAB3Net,
+                    eligible: eligibleForPFP,
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria:</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>ELMAB3 gross aggregate score not exceeding 12 points.</li>
+                                <li>English Language (EL): Grade 1-3 (NA-level)</li>
+                                <li>Mathematics (MA): Grade 1-3 (NA-level)</li>
+                                <li>At least 3 other NA-level subjects, with at least two of these 3 subjects having grades 1-3.</li>
+                            </ul>
+                        </p>
+                    `
+                });
+
+                results.push({
+                    pathway: 'Direct-entry-scheme to Polytechnic Programme (DPP)',
+                    aggregateType: 'ELMAB3 (NA-level)',
+                    gross: dppELMAB3Gross === Infinity ? 'N/A' : dppELMAB3Gross,
+                    net: dppELMAB3Net === Infinity ? 'N/A' : dppELMAB3Net,
+                    eligible: eligibleForDPP,
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria:</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>ELMAB3 gross aggregate score not exceeding 19 points.</li>
+                                <li>English Language (EL): Grade 1-3 (NA-level)</li>
+                                <li>Mathematics (MA): Grade 1-3 (NA-level)</li>
+                                <li>At least 3 other NA-level subjects.</li>
+                                <li>Successful completion of Secondary 4 NA.</li>
+                            </ul>
+                        </p>
+                    `
+                });
+
+                results.push({
+                    pathway: 'ITE Year 1 Higher Nitec',
+                    aggregateType: 'ELMAB3 (NT-level)',
+                    gross: hnitecYear1Gross === Infinity ? 'N/A' : hnitecYear1Gross,
+                    net: hnitecYear1Net === Infinity ? 'N/A' : hnitecYear1Net,
+                    eligible: eligibleForHnitecYear1,
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria (Nitec Foundation Programme):</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>ELMAB3 gross aggregate score not exceeding 19 points.</li>
+                                <li>English Language (EL): Grade A-D (NT-level)</li>
+                                <li>Mathematics (MA): Grade A-D (NT-level)</li>
+                                <li>At least 3 other NT-level subjects.</li>
+                                <li>Successful completion of Secondary 4 NT.</li>
+                            </ul>
+                        </p>
+                    `
+                });
+
+                results.push({
+                    pathway: 'MER (Pass 2 O-level subjects)',
+                    aggregateType: 'N/A',
+                    gross: 'N/A',
+                    net: 'N/A',
+                    eligible: merPass2OL_eligible,
+                    requirements: `
+                        <p class="text-sm text-light-gray mt-2">
+                            <strong>Admission Criteria:</strong>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Obtain at least a pass (A1-D7) in 2 O-level subjects.</li>
+                            </ul>
+                        </p>
+                    `
+                });
+
+
+                renderEligibilityResults(results);
+            }
+
+            function renderEligibilityResults(results) {
+                eligibilityResultsDiv.innerHTML = '';
+                results.forEach(result => {
+                    const statusClass = result.eligible ? 'eligible' : 'not-eligible';
+                    const statusText = result.eligible ? 'Eligible' : 'Not Eligible';
+
+                    const cardHtml = `
+                        <div class="card border ${result.eligible ? 'border-primary-blue' : 'border-red-600'}">
+                            <h3 class="text-lg font-semibold mb-2">${result.pathway}</h3>
+                            <p class="text-sm">Aggregate Type: <span class="font-medium">${result.aggregateType}</span></p>
+                            <p class="text-sm">Gross Aggregate: <span class="font-medium">${result.gross}</span></p>
+                            <p class="text-sm">Net Aggregate: <span class="font-medium">${result.net}</span></p>
+                            <p class="text-md mt-2">Status: <span class="${statusClass}">${statusText}</span></p>
+                            ${result.requirements}
+                        </div>
+                    `;
+                    eligibilityResultsDiv.insertAdjacentHTML('beforeend', cardHtml);
+                });
+            }
+
+            // Improvement Suggestions (Simplified for brevity, can be expanded)
+            function generateImprovementSuggestions() {
+                const suggestions = [];
+
+                // Example: Suggest taking more O-level subjects if few are present
+                const oLevelCount = studentSubjects.filter(s => s.level === 'O-level' && s.level !== 'B-syllabus').length;
+                if (oLevelCount < 6) {
+                    suggestions.push('Consider taking more O-level subjects to increase your eligibility for JC/Polytechnic pathways.');
+                }
+
+                // Example: Suggest improving grades in core subjects
+                const englishO = studentSubjects.find(s => s.subject === 'English Language' && s.level === 'O-level');
+                if (englishO && oLevelPoints[englishO.grade] > 6) { // C6 is 6 points
+                    suggestions.push(`Your O-level English Language grade of ${englishO.grade} could be improved for better eligibility to JC/Polytechnic.`);
+                }
+                const mathO = studentSubjects.find(s => (s.subject === 'Mathematics' || s.subject === 'Additional Mathematics') && s.level === 'O-level');
+                if (mathO && oLevelPoints[mathO.grade] > 7) { // D7 is 7 points
+                    suggestions.push(`Your O-level Mathematics grade of ${mathO.grade} could be improved for better eligibility to JC/Polytechnic.`);
+                }
+
+                const englishNA = studentSubjects.find(s => s.subject === 'English Language' && s.level === 'NA-level');
+                if (englishNA && naLevelPoints[englishNA.grade] > 3) {
+                    suggestions.push(`Your NA-level English Language grade of ${englishNA.grade} could be improved for better eligibility to PFP/DPP.`);
+                }
+                const mathNA = studentSubjects.find(s => s.subject === 'Mathematics' && s.level === 'NA-level');
+                if (mathNA && naLevelPoints[mathNA.grade] > 3) {
+                    suggestions.push(`Your NA-level Mathematics grade of ${mathNA.grade} could be improved for better eligibility to PFP/DPP.`);
+                }
+
+                if (suggestions.length === 0) {
+                    improvementSuggestionsDiv.textContent = 'No specific improvement suggestions at this time. Keep up the good work!';
+                } else {
+                    improvementSuggestionsDiv.innerHTML = '<ul>' + suggestions.map(s => `<li class="mb-1">➡️ ${s}</li>`).join('') + '</ul>';
+                }
+            }
+
+            function updateAllCalculationsAndRender() {
+                renderStudentSubjectsTable();
+                checkEligibility();
+                generateImprovementSuggestions();
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                currentYearSpan.textContent = "2025 and 2026"; // Set specific graduation years
+                currentYearSpan.id = "currentYear"; // Ensure the ID is set for consistency with the initial HTML
+
+                selectedSchool = schoolSelect.value;
+                populateSubjectDropdown();
+
+                // Bonus points validation: 0, 1, or 2 only
+                bonusInput.addEventListener('change', (e) => {
+                    let points = parseInt(e.target.value);
+                    if (isNaN(points) || points < 0) {
+                        points = 0;
+                    } else if (points > 2) {
+                        points = 2;
+                    }
+                    e.target.value = points;
+                    updateAllCalculationsAndRender();
+                });
+                bonusInput.addEventListener('keyup', (e) => {
+                     // Allow only 0, 1, 2 directly and navigation keys
+                    if (!((e.key >= '0' && e.key <= '2') || ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key))) {
+                        e.preventDefault(); // Stop invalid input
+                        return false;
+                    }
+                    // Use setTimeout to ensure value is updated before re-calculation
+                    setTimeout(updateAllCalculationsAndRender, 0);
+                });
+
+
+                schoolSelect.addEventListener('change', (e) => { selectedSchool = e.target.value; populateSubjectDropdown(); });
+                subjectSelect.addEventListener('change', (e) => populateLevelDropdown('', e.target.value));
+                levelSelect.addEventListener('change', (e) => populateGradeDropdown(e.target.value));
+                addUpdateSubjectBtn.addEventListener('click', handleAddOrUpdateSubject);
+
+                updateAllCalculationsAndRender();
+            });
+        })();
+    </script>
+</body>
+</html>
+```
